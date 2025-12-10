@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters.command import Command
 from config_reader import config
 
-from commands.info import uptime_info, free_ram_info
+from commands.info import uptime_info, free_ram_info, top_cpu
 
 logging.basicConfig(level=logging.INFO)
 # Bot object(if you don't have file .env with bot_token, just input it here)
@@ -47,7 +47,8 @@ async def cmd_status(message: types.Message):
 
 @dp.message(Command('proc'))
 async def cmd_proc(message: types.Message):
-    pass
+    await message.answer('List of top cpu processes:')
+    await message.answer(f"{top_cpu()}")
 
 @dp.message(Command('disk'))
 async def cmd_disk(message: types.Message):
@@ -68,6 +69,7 @@ async def cmd_update(message: types.Message):
 @dp.message(Command('reboot'))
 async def cmd_reboot(message: types.Message):
     pass
+
 
 async def main():
     await dp.start_polling(bot)
