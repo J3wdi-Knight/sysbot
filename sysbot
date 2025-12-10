@@ -7,7 +7,7 @@ from aiogram.filters.command import Command
 from config_reader import config
 
 logging.basicConfig(level=logging.INFO)
-# Bot object
+# Bot object(if you don't have file .env with bot_token, just input it here)
 bot = Bot(token=config.bot_token.get_secret_value())
 # Dispatcher
 dp = Dispatcher()
@@ -16,12 +16,50 @@ dp = Dispatcher()
 async def cmd_start(message: types.Message):
     await message.answer('Hello')
     await message.answer('''
+Basic Commands(for more /help):
 /start - say "Hello"
 /help - commands list
 /status - short system analyze
 /proc - top 10 proccesses by CPU
 /disk  - disk info
 ''')
+
+@dp.message(Command('help'))
+async def cmd_help(message: types.Message):
+    await message.answer('''
+/start - output the line "hello"
+/help - help you with command
+/status - output system monitor
+/proc - output top 10 proccesses by CPU
+/disk - disk information
+/screenshot - screenshot from server
+/update - update check(server)
+/reboot - reboot server on 1 minute
+''')
+
+@dp.message(Command('status'))
+async def cmd_status(message: types.Message):
+    pass
+
+@dp.message(Command('proc'))
+async def cmd_proc(message: types.Message):
+    pass
+
+@dp.message(Command('disk'))
+async def cmd_disk(message: types.Message):
+    pass
+
+@dp.message(Command('screenshot'))
+async def cmd_screenshot(message: types.Message):
+    pass
+
+@dp.message(Command('update'))
+async def cmd_update(message: types.Message):
+    pass
+
+@dp.message(Command('reboot'))
+async def cmd_reboot(message: types.Message):
+    pass
 
 async def main():
     await dp.start_polling(bot)
