@@ -11,7 +11,14 @@ def free_ram_info():
     free = subprocess.run(command_free, shell=True, capture_output=True, text=True)
     return free.stdout #output in GiB
 
+# /proc
 def top_cpu():
     command_top = "top -bn1 -o %CPU | awk 'NR>7 && NR<=17' | awk '{print $12}'"
     top_per = subprocess.run(command_top, shell=True, capture_output=True, text=True)
     return top_per.stdout
+
+# /disk
+def disk_info():
+    command_disk = "df -h /home | awk {'print $4'} | tail -1"
+    disk_free = subprocess.run(command_disk, shell=True, capture_output=True, text=True)
+    return disk_free.stdout

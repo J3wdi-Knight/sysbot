@@ -6,7 +6,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters.command import Command
 from config_reader import config
 
-from commands.info import uptime_info, free_ram_info, top_cpu
+from commands.info import uptime_info, free_ram_info, top_cpu, disk_info
+from commands.system import screenshot
 
 logging.basicConfig(level=logging.INFO)
 # Bot object(if you don't have file .env with bot_token, just input it here)
@@ -34,9 +35,8 @@ async def cmd_help(message: types.Message):
 /status - output system monitor
 /proc - output top 10 processes by CPU
 /disk - disk information
-/net - network check
 /screenshot - screenshot from server
-/update - update check(server)
+/updates - update check(server)
 /reboot - reboot server on 1 minute
 ''')
 
@@ -52,17 +52,16 @@ async def cmd_proc(message: types.Message):
 
 @dp.message(Command('disk'))
 async def cmd_disk(message: types.Message):
-    pass
-
-@dp.message(Command('net'))
-async def cmd_network(message: types.Message):
-    pass
+    await message.answer(f"Free: {disk_info()}")
 
 @dp.message(Command('screenshot'))
 async def cmd_screenshot(message: types.Message):
-    pass
+    img_path = screenshot()
 
-@dp.message(Command('update'))
+    with open(img_path, 'rb') as photo:
+        await message.answer_photo(photo)
+
+@dp.message(Command('updates'))
 async def cmd_update(message: types.Message):
     pass
 
